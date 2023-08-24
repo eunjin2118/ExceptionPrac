@@ -8,6 +8,14 @@ namespace ExceptionPrac
 {
     internal class Program
     {
+        class WrongNumberException : Exception
+        {
+             public WrongNumberException(string message) : base(message)
+            {
+                // 예외가 발생했을 때 특정한 작업을 할 코드를 여기에 적을 수 있다.
+            }
+
+        }
         static void Main(string[] args)
         {
             string[] array = { "가", "나" };
@@ -17,7 +25,17 @@ namespace ExceptionPrac
             try
             {
                 input = int.Parse(Console.ReadLine());
+
+                if(input < 0 || input > 999)
+                {
+                    throw new WrongNumberException("0이상 999이하여야 합니다");
+                }
                 Console.WriteLine("입력한 위치의 값은 '" + array[input] + "' 입니다.");
+            }
+            catch(WrongNumberException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("제대로 된 값을 입력하세요!!!");
             }
             catch (FormatException ex)
             {
@@ -33,6 +51,10 @@ namespace ExceptionPrac
             {
                 Console.WriteLine(ex.GetType());
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("finally는 코드가 성공적이든 예외발생이든 무조건 실행!!");
             }
         }
     }
